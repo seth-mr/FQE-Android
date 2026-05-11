@@ -227,7 +227,7 @@ fun SignupScreen(
                     title = "Genero",
                     supporting = "Elige una sola opcion.",
                     options = genreOptions,
-                    selectedValue = state.genre,
+                    selectedValue = state.gender,
                     onSelect = viewModel::onGenreChange
                 )
 

@@ -10,7 +10,7 @@ data class SignupRequest(
     val email: String,
     val password: String,
     val age: Int,
-    val genre: String,
+    val gender: String,
     val country: String,
     val role: String,
     val neurodivergency: String? = null,

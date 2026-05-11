@@ -16,7 +16,7 @@ data class SignupUiState(
     val email: String = "",
     val password: String = "",
     val age: Int = 5,
-    val genre: String = "M",
+    val gender: String = "M",
     val country: String = "MX",
     val role: String = "student",
     val neurodivergency: String = "Ninguna",
@@ -36,7 +36,7 @@ class SignupViewModel(
     fun onEmailChange(value: String) { _uiState.value = _uiState.value.copy(email = value, error = null) }
     fun onPasswordChange(value: String) { _uiState.value = _uiState.value.copy(password = value, error = null) }
     fun onAgeChange(value: Int) { _uiState.value = _uiState.value.copy(age = value, error = null) }
-    fun onGenreChange(value: String) { _uiState.value = _uiState.value.copy(genre = value, error = null) }
+    fun onGenreChange(value: String) { _uiState.value = _uiState.value.copy(gender = value, error = null) }
     fun onCountryChange(value: String) { _uiState.value = _uiState.value.copy(country = value, error = null) }
     fun onRoleChange(value: String) {
         val next = if (value == "tutor") 18 else 5
@@ -66,7 +66,7 @@ class SignupViewModel(
                 email = state.email.trim(),
                 password = state.password,
                 age = state.age,
-                genre = state.genre,
+                gender = state.gender,
                 country = state.country,
                 role = state.role,
                 neurodivergency = if (state.role == "student" && state.neurodivergency != noNeurodivergencyOption) {
@@ -102,7 +102,7 @@ class SignupViewModel(
             return "Password invalido: minimo 8, mayuscula, minuscula y numero"
         }
         if (state.age !in 1..85) return "La edad debe estar entre 1 y 85"
-        if (state.genre !in genreOptions) return "Genero invalido"
+        if (state.gender !in genreOptions) return "Genero invalido"
         if (state.role !in listOf("student", "tutor")) return "Rol invalido"
         if (state.country !in countryOptions) return "Pais invalido"
         if (state.role == "student" && state.neurodivergency !in neurodivergencyOptions) return "Neurodivergencia invalida"
