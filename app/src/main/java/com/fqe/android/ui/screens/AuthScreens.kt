@@ -66,7 +66,7 @@ fun LoginScreen(
 
     AuthScreenLayout(
         title = "Iniciar sesion",
-        subtitle = "Accede a una experiencia clara y enfocada para continuar tu flujo como tutor o estudiante."
+        subtitle = "Bienvenido."
     ) {
         ElevatedCard(
             shape = RoundedCornerShape(32.dp),
