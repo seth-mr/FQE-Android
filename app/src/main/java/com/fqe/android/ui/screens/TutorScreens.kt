@@ -2,7 +2,6 @@ package com.fqe.android.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,22 +16,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Face
-import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.PersonAddAlt1
-import androidx.compose.material.icons.outlined.Public
 import androidx.compose.material.icons.outlined.Psychology
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.School
@@ -81,7 +76,6 @@ import com.fqe.android.data.model.TutorStudentResponse
 import com.fqe.android.data.model.TutorStudentDetailResponse
 import com.fqe.android.ui.viewmodel.TutorHomeViewModel
 import com.fqe.android.ui.viewmodel.TutorHomeUiState
-import com.fqe.android.data.model.TutorProfileResponse
 import com.fqe.android.ui.viewmodel.TutorEditableField
 import com.fqe.android.ui.viewmodel.TutorProfileUiState
 import com.fqe.android.ui.viewmodel.TutorProfileViewModel
@@ -583,7 +577,7 @@ private fun StudentHighlightCard(
 ) {
     val neurodivergency = student.neurodivergency?.trim().orEmpty()
     val isNeurodivergent = neurodivergency.isNotBlank() && !neurodivergency.equals("NULL", ignoreCase = true)
-    val normalizedGenre = student.genre?.trim()?.uppercase()
+    val normalizedGenre = student.gender?.trim()?.uppercase()
     val cardColor = when (normalizedGenre) {
         "M" -> Color(0xFFEAF4FF)
         "F" -> Color(0xFFFFEEF6)
@@ -978,7 +972,7 @@ private fun StudentHeroCard(
     selectedTab: TutorStudentDetailTab,
     sessions: List<StudentSessionResponse>
 ) {
-    val normalizedGenre = student.genre?.trim()?.uppercase()
+    val normalizedGenre = student.gender?.trim()?.uppercase()
     val containerColor = when (normalizedGenre) {
         "M" -> Color(0xFFE9F4FF)
         "F" -> Color(0xFFFFEEF6)
@@ -1082,7 +1076,7 @@ private fun StudentHeroCard(
 private fun StudentDataSection(student: TutorStudentDetailResponse) {
     SectionCard(title = "Datos del alumno") {
         ReadOnlyInfoRow(label = "Email", value = student.email.orEmpty())
-        ReadOnlyInfoRow(label = "Genero", value = formatStudentGenre(student.genre))
+        ReadOnlyInfoRow(label = "Genero", value = formatStudentGenre(student.gender))
         ReadOnlyInfoRow(label = "Pais", value = student.country.orEmpty())
         ReadOnlyInfoRow(label = "Fecha de registro", value = formatRegistrationDate(student.registrationDate))
     }
@@ -1324,7 +1318,7 @@ fun TutorProfileScreen(
                     onCountryChange = viewModel::onCountryChange,
                     onGenderChange = viewModel::onGenderChange,
                     onAgeChange = viewModel::onAgeChange,
-                    onGradeChange = viewModel::onGradeChange
+                    onGradeChange = viewModel::onDegreeChange
                 )
             }
         }
@@ -1471,17 +1465,17 @@ private fun TutorProfileContent(
 
             EditableInfoRow(
                 label = "Grade",
-                value = state.gradeInput.ifBlank { "No definido" },
-                isEditing = state.editingField == TutorEditableField.Grade,
-                error = state.gradeError,
+                value = state.degreeInput.ifBlank { "No definido" },
+                isEditing = state.editingField == TutorEditableField.Degree,
+                error = state.degreeError,
                 saving = state.saving,
-                onEdit = { onEditField(TutorEditableField.Grade) },
+                onEdit = { onEditField(TutorEditableField.Degree) },
                 onCancel = onCancelEdit,
                 onSave = onSaveField
             ) {
                 OptionSelector(
-                    options = TutorProfileViewModel.gradeOptions,
-                    selected = state.gradeInput,
+                    options = TutorProfileViewModel.degreeOptions,
+                    selected = state.degreeInput,
                     onSelect = onGradeChange
                 )
             }

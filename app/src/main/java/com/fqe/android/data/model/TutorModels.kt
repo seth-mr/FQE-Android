@@ -7,7 +7,7 @@ data class TutorProfileResponse(
     val country: String,
     val gender: String? = null,
     val age: Int? = null,
-    val grade: String? = null,
+    val degree: String? = null,
     val registrationDate: String? = null,
     val students: List<TutorStudentSummary> = emptyList()
 )
@@ -22,7 +22,7 @@ data class TutorStudentResponse(
     val name: String? = null,
     val email: String? = null,
     val age: Int,
-    val genre: String? = null,
+    val gender: String? = null,
     val country: String? = null,
     val neurodivergency: String? = null,
     val registrationDate: String? = null
@@ -34,7 +34,7 @@ data class TutorStudentDetailResponse(
     val name: String? = null,
     val email: String? = null,
     val age: Int,
-    val genre: String? = null,
+    val gender: String? = null,
     val country: String? = null,
     val neurodivergency: String? = null,
     val registrationDate: String? = null,
@@ -63,7 +63,7 @@ data class SessionStudentResponse(
     val idTutor: Int? = null,
     val name: String? = null,
     val age: Int? = null,
-    val genre: String? = null,
+    val gender: String? = null,
     val country: String? = null
 )
 
@@ -85,5 +85,5 @@ data class UpdateTutorProfileRequest(
     val country: String,
     val gender: String?,
     val age: Int?,
-    val grade: String?
+    val degree: String?
 )

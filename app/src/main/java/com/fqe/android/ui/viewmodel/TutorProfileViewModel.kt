@@ -16,7 +16,7 @@ enum class TutorEditableField {
     Country,
     Gender,
     Age,
-    Grade
+    Degree
 }
 
 data class TutorProfileUiState(
@@ -28,11 +28,11 @@ data class TutorProfileUiState(
     val countryInput: String = "",
     val genderInput: String = "",
     val ageInput: String = "",
-    val gradeInput: String = "",
+    val degreeInput: String = "",
     val countryError: String? = null,
     val genderError: String? = null,
     val ageError: String? = null,
-    val gradeError: String? = null,
+    val degreeError: String? = null,
     val error: String? = null,
     val successMessage: String? = null
 )
@@ -93,7 +93,7 @@ class TutorProfileViewModel(
             countryError = null,
             genderError = null,
             ageError = null,
-            gradeError = null
+            degreeError = null
         )
     }
 
@@ -132,10 +132,10 @@ class TutorProfileViewModel(
         )
     }
 
-    fun onGradeChange(value: String) {
+    fun onDegreeChange(value: String) {
         _uiState.value = _uiState.value.copy(
-            gradeInput = value,
-            gradeError = null,
+            degreeInput = value,
+            degreeError = null,
             error = null,
             successMessage = null
         )
@@ -151,7 +151,7 @@ class TutorProfileViewModel(
                 countryError = validation.countryError,
                 genderError = validation.genderError,
                 ageError = validation.ageError,
-                gradeError = validation.gradeError,
+                degreeError = validation.degreeError,
                 error = "Revisa los datos antes de guardar.",
                 successMessage = null
             )
@@ -171,7 +171,7 @@ class TutorProfileViewModel(
                 country = currentState.countryInput.trim().uppercase(),
                 gender = normalizeGenderForApi(currentState.genderInput),
                 age = currentState.ageInput.toIntOrNull(),
-                grade = normalizeGradeForApi(currentState.gradeInput)
+                degree = normalizeDegreeForApi(currentState.degreeInput)
             )
 
             when (val result = tutorRepository.updateTutorProfile(request)) {
@@ -198,7 +198,7 @@ class TutorProfileViewModel(
             countryInput = profile.country.trim().uppercase(),
             genderInput = normalizeGenderForUi(profile.gender),
             ageInput = profile.age?.toString().orEmpty(),
-            gradeInput = normalizeGradeForUi(profile.grade)
+            degreeInput = normalizeDegreeForUi(profile.degree)
         )
     }
 
@@ -206,7 +206,7 @@ class TutorProfileViewModel(
         val country = state.countryInput.trim().uppercase()
         val age = state.ageInput.toIntOrNull()
         val gender = state.genderInput.trim()
-        val grade = state.gradeInput.trim()
+        val degree = state.degreeInput.trim()
 
         return ValidationResult(
             countryError = if (!country.matches(Regex("^[A-Z]{2}$"))) {
@@ -224,8 +224,8 @@ class TutorProfileViewModel(
             } else {
                 null
             },
-            gradeError = if (grade !in gradeOptions) {
-                "Grade invalido. Elige una opcion valida."
+            degreeError = if (degree !in degreeOptions) {
+                "Degree invalido. Elige una opcion valida."
             } else {
                 null
             }
@@ -234,7 +234,7 @@ class TutorProfileViewModel(
 
     companion object {
         val genderOptions = listOf("Masculino", "Femenino", "Otro")
-        val gradeOptions = listOf(
+        val degreeOptions = listOf(
             "Licenciatura",
             "Maestria",
             "Doctorado",
@@ -253,32 +253,32 @@ class TutorProfileViewModel(
 
         fun normalizeGenderForApi(value: String): String? {
             return when (value.trim()) {
-                "Masculino" -> "Masculino"
-                "Femenino" -> "Femenino"
-                "Otro" -> "Otro"
+                "Masculino" -> "M"
+                "Femenino" -> "F"
+                "Otro" -> "O"
                 else -> null
             }
         }
 
-        fun normalizeGradeForUi(value: String?): String {
+        fun normalizeDegreeForUi(value: String?): String {
             return when (value?.trim()?.lowercase()) {
                 "licenciatura" -> "Licenciatura"
                 "maestria" -> "Maestria"
                 "doctorado" -> "Doctorado"
-                "post doctorado" -> "Post Doctorado"
-                "padre o madre" -> "Padre o Madre"
+                "postdoctorado" -> "Post Doctorado"
+                "padre-madre" -> "Padre o Madre"
                 "otro" -> "Otro"
                 else -> value?.trim().orEmpty()
             }
         }
 
-        fun normalizeGradeForApi(value: String): String? {
+        fun normalizeDegreeForApi(value: String): String? {
             return when (value.trim()) {
                 "Licenciatura" -> "licenciatura"
-                "Maestria" -> "Maestria"
-                "Doctorado" -> "Doctorado"
-                "Post Doctorado" -> "Post Doctorado"
-                "Padre o Madre" -> "Padre o Madre"
+                "Maestria" -> "maestria"
+                "Doctorado" -> "doctorado"
+                "Post Doctorado" -> "postdoctorado"
+                "Padre o Madre" -> "padre-madre"
                 else -> null
             }
         }
@@ -289,10 +289,10 @@ private data class ValidationResult(
     val countryError: String? = null,
     val genderError: String? = null,
     val ageError: String? = null,
-    val gradeError: String? = null
+    val degreeError: String? = null
 ) {
     val isValid: Boolean
-        get() = countryError == null && genderError == null && ageError == null && gradeError == null
+        get() = countryError == null && genderError == null && ageError == null && degreeError == null
 }
 
 class TutorProfileViewModelFactory(
