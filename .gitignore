@@ -1,11 +1,16 @@
 # Gradle
 .gradle/
 build/
+**/build/
 
 # Android
 local.properties
 *.iml
 .idea/
+
+# Node tooling used by local scripts
+node_modules/
+npm-debug.log*
 
 # Mac/Windows
 .DS_Store

@@ -1,4 +1,6 @@
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -23,9 +25,18 @@ android {
         }
     }
 
+
+    // Leer BASE_URL desde local.properties de forma robusta
+    val localProps = Properties()
+    val localPropsFile = rootProject.file("local.properties")
+    if (localPropsFile.exists()) {
+        localPropsFile.inputStream().use { localProps.load(it) }
+    }
+    val baseUrl = localProps.getProperty("BASE_URL") ?: "http://10.0.2.2:3000/"
+
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }
         release {
             isMinifyEnabled = false
@@ -33,7 +44,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000/\"")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }
     }
 
